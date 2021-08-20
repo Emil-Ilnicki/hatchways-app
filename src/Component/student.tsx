@@ -20,10 +20,11 @@ const Student = (props: { info: studentInfo }) => {
         className="student-img"
       />
       <div className="right">
-        <p className="student-name">
+        <h1 className="student-name">
           {props.info.firstName + " " + props.info.lastName}
-        </p>
+        </h1>
         <p className="student-email">{`Email: ` + props.info.email}</p>
+        <p className="student-company">{`Company: ` + props.info.company}</p>
         <p className="student-skill">{`Skills: ` + props.info.skill}</p>
         <p className="student-grade">{`Average: ` + calculateMean()}</p>
       </div>
