@@ -43,6 +43,13 @@ input {
   border-bottom: 1px solid #e2e2e2;
   font-size: 1.5em;
   width: 95%;
+}
+
+input::placeholder {
+  color: #b9b9b9;
+}
+
+input:focus {
   color: black;
 }
 
