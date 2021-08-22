@@ -57,7 +57,7 @@ const App = () => {
             <Student info={student} key={student.id} />
           ))
         ) : (
-          <p> no results </p>
+          <p className="no-records"> no results </p>
         )}
       </section>
     </div>
