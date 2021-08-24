@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { studentInfo } from "../interface";
+import { studentJSON } from "../interface";
 import "../Styles/Student.css";
 
-const Student = (props: { info: studentInfo }) => {
+const Student = (props: { info: studentJSON }) => {
   const [buttonText, setButtonText] = useState<Boolean>(true);
+  const [tag, setTag] = useState<string>("");
 
   const calculateMean = (): string => {
     let totalGrade: number = 0;
@@ -26,7 +27,9 @@ const Student = (props: { info: studentInfo }) => {
       </div>
       <section className="center">
         <h1 className="student-name">
-          {props.info.firstName + " " + props.info.lastName}
+          {props.info.firstName.toUpperCase() +
+            " " +
+            props.info.lastName.toUpperCase()}
         </h1>
         <section className="student-info">
           <p className="student-email">{`Email: ` + props.info.email}</p>
@@ -42,6 +45,21 @@ const Student = (props: { info: studentInfo }) => {
               ))}
             </div>
           )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <input
+              className="student-tag-input"
+              placeholder="Add a tag"
+              type="text"
+              value={tag}
+              onChange={(e) => {
+                setTag(e.target.value);
+              }}
+            />
+          </form>
         </section>
       </section>
       <div className="right">

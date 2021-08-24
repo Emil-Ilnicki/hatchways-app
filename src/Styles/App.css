@@ -34,6 +34,8 @@ body {
   padding: 1em 0 1em 0;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-left: 1.5em;
 }
 
 input {
@@ -43,6 +45,11 @@ input {
   border-bottom: 1px solid #e2e2e2;
   font-size: 1.5em;
   width: 95%;
+  margin-bottom: 0.7em;
+}
+
+input:focus {
+  border-bottom: 2px solid #555;
 }
 
 input::placeholder {

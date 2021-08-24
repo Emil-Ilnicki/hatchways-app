@@ -1,4 +1,4 @@
-export interface studentInfo {
+export interface studentJSON {
   city: string;
   company: string;
   email: string;
@@ -8,4 +8,5 @@ export interface studentInfo {
   pic: string;
   skill: string;
   grades: [string];
+  tags: [string];
 }

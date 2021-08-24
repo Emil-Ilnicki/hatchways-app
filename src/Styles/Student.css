@@ -21,11 +21,16 @@
 }
 
 .center h1 {
-  font-size: 4em;
+  font-size: 3.5em;
 }
 
 .student-info {
   padding-left: 2em;
+}
+
+.student-tag-input {
+  width: 25%;
+  font-size: 1.2em;
 }
 
 .right {
