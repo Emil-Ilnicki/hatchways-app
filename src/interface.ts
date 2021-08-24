@@ -8,5 +8,11 @@ export interface studentJSON {
   pic: string;
   skill: string;
   grades: [string];
-  tags: [string];
+  tags: [string?];
+}
+
+export interface propData {
+  student: studentJSON;
+  key: string;
+  addTag: (tag: string, index: number) => void;
 }

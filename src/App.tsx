@@ -17,7 +17,7 @@ const App = () => {
       let tagData: studentJSON[] = [];
       res.students.map((student: studentJSON) => {
         let addTagToStudent = student;
-        addTagToStudent.tags = [""];
+        addTagToStudent.tags = [];
         tagData.push(addTagToStudent);
       });
 
@@ -37,13 +37,6 @@ const App = () => {
         studentRecord.lastName.toLowerCase().search(filter) !== -1
       );
     });
-
-    const addStudentTag = (tag: string, index: number) => {
-      const studentsTag = [...data];
-      studentsTag[index].tags.push(tag);
-      setData(studentsTag);
-    };
-
     console.log(result);
 
     if (result.length !== 0) {
@@ -52,6 +45,12 @@ const App = () => {
     } else {
       setResults(false);
     }
+  };
+
+  const addStudentTag = (tag: string, index: number) => {
+    const studentsTag = [...data];
+    studentsTag[index].tags.push(tag);
+    setData(studentsTag);
   };
 
   return (
@@ -70,7 +69,11 @@ const App = () => {
       <section className="student-records">
         {results ? (
           filteredData.map((student: studentJSON) => (
-            <Student info={student} key={student.id} />
+            <Student
+              student={student}
+              key={student.id}
+              addTag={addStudentTag}
+            />
           ))
         ) : (
           <p className="no-records"> no results </p>
