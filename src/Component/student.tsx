@@ -49,13 +49,14 @@ const Student = ({ ...props }: propData) => {
           )}
           {/* make this its own component */}
           {props.student.tags.map((tag) => (
-            <p>{tag}</p>
+            <p key={tag}>{tag}</p>
           ))}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               const index = parseInt(props.student.id);
               props.addTag(tag, index - 1);
+              setTag("");
             }}
           >
             <input
