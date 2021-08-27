@@ -28,10 +28,7 @@ const App = () => {
   }, []);
 
   const nameFilterStudents = (nameFilter: string) => {
-    console.log("Tag Filter: " + JSON.stringify(tagFilterData));
-    console.log(tagFilterData.length);
     if (tagFilterData.length === 0) {
-      console.log("here1");
       let filter: string = nameFilter.toLowerCase();
       let nameFilterResult: studentJSON[] = [];
       nameFilterResult = data.filter((studentRecord: studentJSON) => {
@@ -44,8 +41,6 @@ const App = () => {
       setFilteredData(nameFilterResult);
       setNameFilterData(nameFilterResult);
     } else {
-      console.log("here2");
-      // we have a tag in place so now we must serach for a name in that data
       let filter: string = nameFilter.toLowerCase();
       let nameFilterResult: studentJSON[] = [];
       nameFilterResult = data.filter((studentRecord: studentJSON) => {
@@ -71,10 +66,7 @@ const App = () => {
   };
 
   const tagFilterStudents = (tagFilter: string) => {
-    console.log(nameFilterData);
-    console.log(nameFilterData.length);
     if (nameFilterData.length === 0) {
-      console.log("here3");
       let tagFilterResult: studentJSON[] = [];
       tagFilterResult = data.filter((student: studentJSON) => {
         /*
@@ -89,17 +81,8 @@ const App = () => {
       setTagFilterData(tagFilterResult);
       setFilteredData(tagFilterResult);
     } else {
-      console.log("here4");
-      console.log(nameFilterData);
-
       let tagFilterResult: studentJSON[] = [];
       tagFilterResult = data.filter((student: studentJSON) => {
-        /*
-          cannot use serach function like we did in namefilter due to '.' 
-          being a special character that needs to be inputted with escape characters
-          if not then other students with tags will also pass the filter as
-          .search(filter) with tagFilter = '.' will always return 0 and not -1
-        */
         return student.tags.join().includes(tagFilter) === true;
       });
 
@@ -141,13 +124,26 @@ const App = () => {
       </form>
       <section className="student-records">
         {filteredData.length !== 0 ? (
-          filteredData.map((student: studentJSON) => (
-            <Student
-              student={student}
-              key={student.id}
-              addTag={addStudentTag}
-            />
-          ))
+          filteredData.map((student: studentJSON) => {
+            const calculateMean = (): string => {
+              let totalGrade: number = 0;
+              for (let i = 0; i < student.grades.length; i++) {
+                totalGrade += parseInt(student.grades[i]);
+              }
+
+              let averageGrade: number = totalGrade / student.grades.length;
+              return averageGrade.toString();
+            };
+
+            return (
+              <Student
+                student={student}
+                key={student.id}
+                average={calculateMean()}
+                addTag={addStudentTag}
+              />
+            );
+          })
         ) : (
           <p className="no-records"> no results </p>
         )}

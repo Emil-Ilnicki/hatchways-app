@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import { propData } from "../interface";
+import { studentPropData } from "../interface";
 import "../Styles/Student.css";
 
-const Student = ({ ...props }: propData) => {
+import Tag from "./tag";
+
+const Student = ({ ...props }: studentPropData) => {
   const [buttonText, setButtonText] = useState<Boolean>(true);
   const [tag, setTag] = useState<string>("");
-
-  const calculateMean = (): string => {
-    let totalGrade: number = 0;
-    for (let i = 0; i < props.student.grades.length; i++) {
-      totalGrade += parseInt(props.student.grades[i]);
-    }
-
-    let averageGrade: number = totalGrade / props.student.grades.length;
-    return averageGrade.toString();
-  };
 
   return (
     <div className="student-container">
@@ -37,19 +29,18 @@ const Student = ({ ...props }: propData) => {
             {`Company: ` + props.student.company}
           </p>
           <p className="student-skill">{`Skills: ` + props.student.skill}</p>
-          <p className="student-average">{`Average: ` + calculateMean()}</p>
+          <p className="student-average">{`Average: ` + props.average}</p>
           {buttonText ? null : (
             <div className="student-grades">
-              {props.student.grades.map((grades, key: number) => (
+              {props.student.grades.map((grades: string, key: number) => (
                 <p>
-                  {"Test " + key + ":"} &emsp; {grades + "%"}
+                  {"Test " + (key + 1) + ":"} &emsp; {grades + "%"}
                 </p>
               ))}
             </div>
           )}
-          {/* make this its own component */}
-          {props.student.tags.map((tag) => (
-            <p key={tag}>{tag}</p>
+          {props.student.tags.map((text: string | undefined) => (
+            <Tag tag={text} />
           ))}
           <form
             onSubmit={(e) => {

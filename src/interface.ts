@@ -11,8 +11,13 @@ export interface studentJSON {
   tags: [string?];
 }
 
-export interface propData {
+export interface studentPropData {
   student: studentJSON;
   key: string;
+  average: string;
   addTag: (tag: string, index: number) => void;
+}
+
+export interface tagPropData {
+  tag: string | undefined;
 }
