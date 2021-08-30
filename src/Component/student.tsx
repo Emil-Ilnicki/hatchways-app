@@ -5,7 +5,7 @@ import "../Styles/Student.css";
 import Tag from "./tag";
 
 const Student = ({ ...props }: studentPropData) => {
-  const [buttonText, setButtonText] = useState<Boolean>(true);
+  const [buttonText, setButtonText] = useState<Boolean>(false);
   const [tag, setTag] = useState<string>("");
 
   return (
@@ -30,7 +30,7 @@ const Student = ({ ...props }: studentPropData) => {
           </p>
           <p className="student-skill">{`Skills: ` + props.student.skill}</p>
           <p className="student-average">{`Average: ` + props.average}</p>
-          {buttonText ? null : (
+          {buttonText && (
             <div className="student-grades">
               {props.student.grades.map((grades: string, key: number) => (
                 <p>
@@ -64,7 +64,7 @@ const Student = ({ ...props }: studentPropData) => {
       </section>
       <div className="right">
         <button onClick={() => setButtonText(!buttonText)}>
-          {buttonText ? "+" : "-"}
+          {buttonText ? "-" : "+"}
         </button>
       </div>
     </div>

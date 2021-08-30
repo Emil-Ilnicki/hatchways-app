@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Student from "./Component/student";
 import { getStudents } from "./Network/API";
 import { studentJSON } from "./interface";
@@ -14,7 +14,7 @@ const App = () => {
     async function fetchData() {
       const res = await getStudents();
       let tagData: studentJSON[] = [];
-      res.students.map((student: studentJSON) => {
+      res.students.forEach((student: studentJSON) => {
         let addTagToStudent = student;
         addTagToStudent.tags = [];
         tagData.push(addTagToStudent);
@@ -102,6 +102,16 @@ const App = () => {
     setData(studentsTag);
   };
 
+  const calculateAverage = useCallback((grades: [string]) => {
+    let totalGrade: number = 0;
+    for (let i = 0; i < grades.length; i++) {
+      totalGrade += parseInt(grades[i]);
+    }
+
+    let averageGrade: number = totalGrade / grades.length;
+    return averageGrade.toString();
+  }, []);
+
   return (
     <div className="app-content">
       <form className="input-fields">
@@ -124,26 +134,14 @@ const App = () => {
       </form>
       <section className="student-records">
         {filteredData.length !== 0 ? (
-          filteredData.map((student: studentJSON) => {
-            const calculateMean = (): string => {
-              let totalGrade: number = 0;
-              for (let i = 0; i < student.grades.length; i++) {
-                totalGrade += parseInt(student.grades[i]);
-              }
-
-              let averageGrade: number = totalGrade / student.grades.length;
-              return averageGrade.toString();
-            };
-
-            return (
-              <Student
-                student={student}
-                key={student.id}
-                average={calculateMean()}
-                addTag={addStudentTag}
-              />
-            );
-          })
+          filteredData.map((student: studentJSON) => (
+            <Student
+              student={student}
+              key={student.id}
+              average={calculateAverage(student.grades)}
+              addTag={addStudentTag}
+            />
+          ))
         ) : (
           <p className="no-records"> no results </p>
         )}
