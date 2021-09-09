@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Student from "./Component/student";
 import { getStudents } from "./Network/API";
 import { studentJSON } from "./interface";
@@ -29,12 +29,17 @@ const App = () => {
 
   const nameFilterStudents = (nameFilter: string) => {
     if (tagFilterData.length === 0) {
-      let filter: string = nameFilter.toLowerCase();
+      let filter: string = nameFilter.toLowerCase().replace(/ /g, "");
+      console.log(filter);
       let nameFilterResult: studentJSON[] = [];
       nameFilterResult = data.filter((studentRecord: studentJSON) => {
         return (
           studentRecord.firstName.toLowerCase().search(filter) !== -1 ||
-          studentRecord.lastName.toLowerCase().search(filter) !== -1
+          studentRecord.lastName.toLowerCase().search(filter) !== -1 ||
+          studentRecord.firstName
+            .toLowerCase()
+            .concat(studentRecord.lastName.toLocaleLowerCase())
+            .includes(filter) === true
         );
       });
 
@@ -102,7 +107,7 @@ const App = () => {
     setData(studentsTag);
   };
 
-  const calculateAverage = useCallback((grades: [string]) => {
+  const calculateAverage = (grades: [string]) => {
     let totalGrade: number = 0;
     for (let i = 0; i < grades.length; i++) {
       totalGrade += parseInt(grades[i]);
@@ -110,7 +115,9 @@ const App = () => {
 
     let averageGrade: number = totalGrade / grades.length;
     return averageGrade.toString();
-  }, []);
+  };
+
+  const avg = useMemo(() => calculateAverage, []);
 
   return (
     <div className="app-content">
@@ -134,14 +141,16 @@ const App = () => {
       </form>
       <section className="student-records">
         {filteredData.length !== 0 ? (
-          filteredData.map((student: studentJSON) => (
-            <Student
-              student={student}
-              key={student.id}
-              average={calculateAverage(student.grades)}
-              addTag={addStudentTag}
-            />
-          ))
+          filteredData.map((student: studentJSON) => {
+            return (
+              <Student
+                student={student}
+                key={student.id}
+                average={avg(student.grades)}
+                addTag={addStudentTag}
+              />
+            );
+          })
         ) : (
           <p className="no-records"> no results </p>
         )}
